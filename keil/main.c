@@ -12,7 +12,7 @@
 #include "DIO.h"
 #define PortA_IRQn 0
 
-//define a Semaphore handle
+
 xSemaphoreHandle xBinarySemaphore;
 xSemaphoreHandle xMutex;
 xQueueHandle xQueue;
@@ -20,8 +20,6 @@ xQueueHandle xQueue;
 
 uint8_t jamming = 0;
 void sensorButtonInit(void);
-//void timer0Init(void);
-//void timer0_Delay(int time);
 void motorInit(void);
 void limitInit(void);
 void buttonsInit(void);
@@ -43,8 +41,7 @@ while(1)
 }
 
 void jamTask(void* pvParameters) {
-    //TAKE SEMAPHORE
-    //xSemaphoreTake(xBinarySemaphore, 0);
+
     while (1) {
         //TAKE SEMAPHORE
         xSemaphoreTake(xBinarySemaphore, portMAX_DELAY);
@@ -92,6 +89,7 @@ void recieveQueue(void* pvParameters) {
 		Val=4;
 	}
 		else{
+			// make red led toggles to detedt that there is no action happennig
 			Toggle_Bit(GPIO_PORTF_DATA_R,1);
 			delay(30);
 		}
@@ -104,7 +102,7 @@ void driver(void* pvParameters){
 	  portBASE_TYPE xStatus;
 		while(1)
 		{
-
+			// Applying Mutix
 			xSemaphoreTake(xMutex,portMAX_DELAY );
 			
 //MANUAL UP			
@@ -175,9 +173,9 @@ void driver(void* pvParameters){
 				{
 					vTaskPrioritySet(NULL,1);
 				}
-
+				// Releasing Mutex
 				xSemaphoreGive(xMutex);
-				taskYIELD();
+				taskYIELD(); // checking Passenger
 		}
 	}
 
@@ -186,10 +184,10 @@ void passenger(void* pvParameters){
 	portBASE_TYPE xStatus;
 	while(1)
 	{
-		
-//MANUAL UP
+		// Applying Mutex
 		xSemaphoreTake(xMutex,portMAX_DELAY );
 
+//MANUAL UP
 		if (GET_BIT(GPIO_PORTD_DATA_R,2)==1){ 
 			Val=1;
            while((GET_BIT(GPIO_PORTD_DATA_R,2)==1))
@@ -244,9 +242,9 @@ void passenger(void* pvParameters){
 				Val=0;
 				xStatus = xQueueSendToBack(xQueue,&Val,0);
 			}			
-		
+		// Releasing Mutex
     xSemaphoreGive(xMutex);
-		taskYIELD();
+		taskYIELD(); // Checking Driver
 	}
 	
 	}
@@ -274,10 +272,8 @@ int main( void )
 		xBinarySemaphore = xSemaphoreCreateBinary();
 	if( xBinarySemaphore != NULL )
 		{
-			/* Create the 'handler' task. This is the task that will be synchronized
-			with the interrupt. The handler task is created with a high priority to
-			ensure it runs immediately after the uint8_terrupt exits. In this case a
-			priority of 3 is chosen. */
+			// Tasks Creation
+			
 			xTaskCreate( jamTask, "jamTask", 200, NULL, 5, NULL );
 			
 			xTaskCreate( passenger, "passenger", 240, NULL, 1, NULL );
@@ -285,6 +281,7 @@ int main( void )
 			xTaskCreate( driver, "driver", 240, NULL, 1, NULL );
 			
 			xTaskCreate( recieveQueue, "recieveQueue", 200, NULL, 3, NULL );
+			
 			/* Start the scheduler so the created tasks start executing. */
 			vTaskStartScheduler();
 		}
@@ -301,6 +298,7 @@ int main( void )
 
 
 /*------------------------------------------------------------------------*/
+
 //Port-A handler
 void GPIOA_Handler(void)
 {
@@ -316,7 +314,7 @@ void GPIOA_Handler(void)
     portEND_SWITCHING_ISR( xHigherPriorityTaskWoken );
 }
 
-
+// Jamming Button init
 void sensorButtonInit(void)
 {
 	
@@ -345,6 +343,7 @@ void sensorButtonInit(void)
 	
 }
 
+// Lock Button init
 void lockButtonInit(void)
 {
 	    //Enable Port F
@@ -361,9 +360,11 @@ void lockButtonInit(void)
 	
 }
 
+// Driver & Passenger Buttons
 void buttonsInit(void)
 {
 	// Manual
+	
 		    //Enable Port D
     SYSCTL_RCGCGPIO_R |= 0x08;
 
@@ -377,6 +378,7 @@ void buttonsInit(void)
 	
 	
 	// Auto
+	
 			    //Enable Port A
     SYSCTL_RCGCGPIO_R |= 0x01;
 
@@ -392,6 +394,7 @@ void buttonsInit(void)
 	
 }
 
+// Limit Buttons init
 void limitInit(void)
 {
 			    //Enable Port C
@@ -406,7 +409,7 @@ void limitInit(void)
     GPIO_PORTC_DEN_R |= (1 << 6)|(1<<7);
 }
 
-
+// Motor init
 void motorInit(void)
 {
 	
