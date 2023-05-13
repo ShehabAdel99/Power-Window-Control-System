@@ -322,8 +322,6 @@ void sensorButtonInit(void)
 	
 	    //Enable Port A
     SYSCTL_RCGCGPIO_R |= 0x01;
-
-  __asm__("NOP; NOP; NOP; NOP;");
 	
     //Configure Pin 6 in Port A as input
     GPIO_PORTA_DIR_R &= ~(1 << 6);
@@ -350,8 +348,6 @@ void lockButtonInit(void)
 {
 	    //Enable Port F
     SYSCTL_RCGCGPIO_R |= 0x20;
-
-   __asm__("NOP; NOP; NOP; NOP;");
 	
     //Configure Pin 4 in Port E as input
 	  GPIO_PORTA_LOCK_R=0X4C4F434B;
@@ -369,8 +365,6 @@ void buttonsInit(void)
 	
 		    //Enable Port D
     SYSCTL_RCGCGPIO_R |= 0x08;
-
-    __asm__("NOP; NOP; NOP; NOP;");
 	
     //Configure Pins (0,1)-> Driver ,  (2,3)-> Passenger  in Port D as input
     GPIO_PORTD_DIR_R &= ~((1 << 0)|(1<<1)|(1<<2)|(1<<3));
@@ -384,7 +378,6 @@ void buttonsInit(void)
 			    //Enable Port A
     SYSCTL_RCGCGPIO_R |= 0x01;
 
-    __asm__("NOP; NOP; NOP; NOP;");
 	
     //Configure Pins (4,5)-> Driver ,  (2,3)-> Passenger  in Port A as input
     GPIO_PORTA_DIR_R &= ~((1<<2)|(1<<3)|(1 << 4)|(1<<5));
@@ -402,7 +395,6 @@ void limitInit(void)
 			    //Enable Port C
     SYSCTL_RCGCGPIO_R |= 0x04;
 
-    __asm__("NOP; NOP; NOP; NOP;");
 	
     //Configure Pins 6,7 in Port C as input ( 6 limit up , 7 limit down )
     GPIO_PORTC_DIR_R &= ~((1 << 6)|(1<<7));
@@ -418,9 +410,7 @@ void motorInit(void)
 	
 			    //Enable Port F
     SYSCTL_RCGCGPIO_R |= 0x20;
-	
-    __asm__("NOP; NOP; NOP; NOP;");
-	
+		
     //Configure Pin 1,2,3 in Port F as input
     GPIO_PORTF_DIR_R |= ((1 << 2)|(1<<3));
     GPIO_PORTF_CR_R |= (1 << 2)|(1<<3);
