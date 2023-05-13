@@ -86,7 +86,8 @@ void recieveQueue(void* pvParameters) {
 			{
 					GPIO_PORTF_DATA_R &= ~(1 << 3);
 					GPIO_PORTF_DATA_R |= (1 << 2);
-			}		
+			}	
+	
 		Val=4;
 	}
 		else{
