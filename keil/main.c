@@ -28,10 +28,10 @@ void jamTask(void* pvParameters);
 void recieveQueue(void* pvParameters);
 void driver(void* pvParameters);
 void passenger(void* pvParameters);
+void vApplicationIdleHook();
 void GPIOA_Handler(void);
 
-void vApplicationIdleHook();
-
+// Idle Task
 void vApplicationIdleHook(){
 while(1)
 {
@@ -40,6 +40,7 @@ while(1)
 }
 }
 
+// Jamming Task
 void jamTask(void* pvParameters) {
 
     while (1) {
@@ -61,7 +62,7 @@ void jamTask(void* pvParameters) {
    }  
 }
 
-
+// Functions that makes the action
 void recieveQueue(void* pvParameters) {
 		uint8_t Val;
 		portBASE_TYPE xStatus;
