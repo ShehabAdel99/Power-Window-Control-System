@@ -127,7 +127,7 @@ void driver(void* pvParameters){
 // AUTO UP
 			if (GET_BIT(GPIO_PORTA_DATA_R,4)==1){ 
 				Val=1;
-					while((GET_BIT(GPIO_PORTC_DATA_R,6)==0)&&	jamming==0)
+					while((GET_BIT(GPIO_PORTC_DATA_R,6)==0)&&	jamming==0 && GET_BIT(GPIO_PORTA_DATA_R,5)==0)
 						{	
 											xStatus = xQueueSendToBack(xQueue,&Val,0);
 						}
@@ -156,7 +156,7 @@ void driver(void* pvParameters){
 // AUTO DOWN
 			if (GET_BIT(GPIO_PORTA_DATA_R,5)==1){ 
 				Val=2;
-					while(((GET_BIT(GPIO_PORTC_DATA_R,7)==0)))
+					while((GET_BIT(GPIO_PORTC_DATA_R,7)==0) && GET_BIT(GPIO_PORTA_DATA_R,4)==0)
 						{	
 											xStatus = xQueueSendToBack(xQueue,&Val,0);
 						}
@@ -209,7 +209,7 @@ void passenger(void* pvParameters){
 // AUTO UP
 			if (GET_BIT(GPIO_PORTA_DATA_R,2)==1){ 
 				Val=1;
-					while((GET_BIT(GPIO_PORTC_DATA_R,6)==0) && jamming==0)
+					while((GET_BIT(GPIO_PORTC_DATA_R,6)==0) && jamming==0 && GET_BIT(GPIO_PORTA_DATA_R,3)==0)
 						{	
 											xStatus = xQueueSendToBack(xQueue,&Val,0);
 						}
@@ -236,7 +236,7 @@ void passenger(void* pvParameters){
 // AUTO DOWN
 			if (GET_BIT(GPIO_PORTA_DATA_R,3)==1){ 
 				Val=2;
-					while(((GET_BIT(GPIO_PORTC_DATA_R,7)==0)))
+					while((GET_BIT(GPIO_PORTC_DATA_R,7)==0) && GET_BIT(GPIO_PORTA_DATA_R,2)==0)
 						{	
 											xStatus = xQueueSendToBack(xQueue,&Val,0);
 						}
