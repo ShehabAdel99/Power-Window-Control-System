@@ -39,7 +39,7 @@ To utilize the Power Window Control System:
 5) Test the system thoroughly to verify the functionality of each feature and ensure proper operation.
 
 ## Authors
-- Shehab Adel Ramadan 
+- Shehab Adel Ramadan Moharram
 - Omar Salah Abdelkader Gabr
 - Amr Essam Kamal
 - Mohamed Reda Mohamed Selim
