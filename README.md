@@ -41,5 +41,5 @@ To utilize the Power Window Control System:
 ## Authors
 - Shehab Adel Ramadan Moharram
 - Omar Salah Abdelkader Gabr
-- Amr Essam Kamal
+- Amr Essam Kamaleldin Sayed Ahmad 
 - Mohamed Reda Mohamed Selim
